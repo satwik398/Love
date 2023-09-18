@@ -1,0 +1,165 @@
+<html>
+<head>
+    <title>Please say Yes!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</head>
+<style>
+    #ask{
+        position: absolute;
+        top:50px;
+        left:50px;
+    }
+    .container {
+  height: 200px;
+  position: relative;
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
+}
+.button{
+	width: 130px;
+	height: 40px;
+  top:50%;
+  position: fixed;
+	left: 50%;
+	margin-top: -45px;
+	margin-left: -50px;
+	border-radius: 5px;
+	background: none;
+	cursor: pointer;
+	transition: background 0.5s ease;
+    color: red;
+}
+
+.active#heart:before,.active#heart:after{
+	background: red !important;
+}
+#heart {
+    width: 100px;
+    height: 90px;
+    transition: background 0.5s ease;
+}
+#heart:before,
+#heart:after {
+	transition: background 0.5s ease;
+    position: absolute;
+    content: "";
+    left: 50px;
+    top: 0;
+    width: 50px;
+    height: 80px;
+    background: dimgrey;
+    border-radius: 50px 50px 0 0;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+#heart:after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin :100% 100%;
+}
+a{
+    text-decoration: none;
+    color: red;
+}
+a:hover{
+    text-decoration: none;
+    color: white;
+}
+</style>
+<body>
+    <h1 style="text-align: center; font-family: Times;font-size: 80px;">
+        Do you find me annoying?
+    </h1>
+    <div class="container">
+    <button id="" class="btn btn-danger vertical-center button" style="text-align: center;"><a href="u2.html"> No! I love you</a></button>
+</div>
+<button id= "ask" class = "btn btn-primary">Yes!</button>
+
+<script>
+$(function(){
+    $("#ask").on({
+        mouseover: function(){
+        $(this).css({
+            left: (Math.random()*1000)+"px",
+            top: (Math.random()*600)+"px",
+        });
+        }
+    });
+});
+
+$( document ).ready(function() {
+var scaleCurve = mojs.easing.path('M0,100 L25,99.9999983 C26.2328835,75.0708847 19.7847843,0 100,0');
+   var el = document.querySelector('.button'),
+	// mo.js timeline obj
+	timeline = new mojs.Timeline(),
+
+	// tweens for the animation:
+
+	// burst animation
+	tween1 = new mojs.Burst({
+		parent: el,
+  radius:   { 0: 100 },
+  angle:    { 0: 45 },
+  y: -10,
+  count:    10,
+   radius:       100,
+  children: {
+    shape:        'circle',
+    radius:       30,
+    fill:         [ 'red', 'white' ],
+    strokeWidth:  15,
+    duration:     500,
+  }
+	});
+
+
+	tween2 = new mojs.Tween({
+		duration : 900,
+		onUpdate: function(progress) {
+			var scaleProgress = scaleCurve(progress);
+			el.style.WebkitTransform = el.style.transform = 'scale3d(' + scaleProgress + ',' + scaleProgress + ',1)';
+		}
+	});
+  		tween3 = new mojs.Burst({
+		parent: el,
+  radius:   { 0: 100 },
+  angle:    { 0: -45 },
+  y: -10,
+  count:    10,
+   radius:       125,
+  children: {
+    shape:        'circle',
+    radius:       30,
+    fill:         [ 'white', 'red' ],
+    strokeWidth:  15,
+    duration:     400,
+  }
+	});
+
+// add tweens to timeline:
+timeline.add(tween1, tween2, tween3);
+
+
+// when clicking the button start the timeline/animation:
+$( ".button" ).click(function() {
+	if ($(this).hasClass('active')){
+		$(this).removeClass('active');
+	}else{
+  timeline.play();
+  $(this).addClass('active');
+	}
+});
+
+
+});
+</script>
+</body>
+</html>
